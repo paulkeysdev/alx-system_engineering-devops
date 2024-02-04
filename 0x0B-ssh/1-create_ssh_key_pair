@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 #generating ssh key paits
+<<<<<<< HEAD
 ssh-keygen -t rsa -b 4096 -P betty -f ~/.ssh/school
+=======
+ssh-keygen -t rsa -b 4096 -P betty -f~/.ssh/school
+>>>>>>> 5bf6d1080d0b28d4d056a527baf684e07f21ece2
 
