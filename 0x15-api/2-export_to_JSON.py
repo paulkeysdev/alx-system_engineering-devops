@@ -1,20 +1,29 @@
-"2","Antonette","False","suscipit repellat esse quibusdam voluptatem incidunt"
-"2","Antonette","True","distinctio vitae autem nihil ut molestias quo"
-"2","Antonette","False","et itaque necessitatibus maxime molestiae qui quas velit"
-"2","Antonette","False","adipisci non ad dicta qui amet quaerat doloribus ea"
-"2","Antonette","True","voluptas quo tenetur perspiciatis explicabo natus"
-"2","Antonette","True","aliquam aut quasi"
-"2","Antonette","True","veritatis pariatur delectus"
-"2","Antonette","False","nesciunt totam sit blanditiis sit"
-"2","Antonette","False","laborum aut in quam"
-"2","Antonette","True","nemo perspiciatis repellat ut dolor libero commodi blanditiis omnis"
-"2","Antonette","False","repudiandae totam in est sint facere fuga"
-"2","Antonette","False","earum doloribus ea doloremque quis"
-"2","Antonette","False","sint sit aut vero"
-"2","Antonette","False","porro aut necessitatibus eaque distinctio"
-"2","Antonette","True","repellendus veritatis molestias dicta incidunt"
-"2","Antonette","True","excepturi deleniti adipisci voluptatem et neque optio illum ad"
-"2","Antonette","False","sunt cum tempora"
-"2","Antonette","False","totam quia non"
-"2","Antonette","False","doloremque quibusdam asperiores libero corrupti illum qui omnis"
-"2","Antonette","True","totam atque quo nesciunt"
+#!/usr/bin/python3
+"""Exports data in the JSON format"""
+
+if __name__ == "__main__":
+
+    import json
+    import requests
+    import sys
+
+    userId = sys.argv[1]
+    user = requests.get("https://jsonplaceholder.typicode.com/users/{}"
+                        .format(userId))
+    todos = requests.get('https://jsonplaceholder.typicode.com/todos')
+    todos = todos.json()
+
+    todoUser = {}
+    taskList = []
+
+    for task in todos:
+        if task.get('userId') == int(userId):
+            taskDict = {"task": task.get('title'),
+                        "completed": task.get('completed'),
+                        "username": user.json().get('username')}
+            taskList.append(taskDict)
+    todoUser[userId] = taskList
+
+    filename = userId + '.json'
+    with open(filename, mode='w') as f:
+        json.dump(todoUser, f)
